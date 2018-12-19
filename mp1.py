@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
-%matplotlib inline
 import numpy as np
+from tqdm import tqdm_notebook as tqdm
 
 # On some implementations of matplotlib, you may need to change this value
 IMAGE_SIZE = 72
@@ -71,13 +71,15 @@ def generate_a_triangle(noise=0.0, free_location=False):
     imdata = generate_a_drawing(figsize, U, V, noise)
     return [imdata, [U[0], V[0], U[1], V[1], U[2], V[2]]]
 
-
+plt.figure(1)
 im = generate_a_rectangle(10, True)
 plt.imshow(im.reshape(IMAGE_SIZE,IMAGE_SIZE), cmap='gray')
 
+plt.figure(2)
 im = generate_a_disk(10)
 plt.imshow(im.reshape(IMAGE_SIZE,IMAGE_SIZE), cmap='gray')
 
+plt.figure(3)
 [im, v] = generate_a_triangle(20, False)
 plt.imshow(im.reshape(IMAGE_SIZE,IMAGE_SIZE), cmap='gray')
 
@@ -88,9 +90,7 @@ def generate_dataset_classification(nb_samples, noise=0.0, free_location=False):
     X = np.zeros([nb_samples,im_size])
     Y = np.zeros(nb_samples)
     print('Creating data:')
-    for i in range(nb_samples):
-        if i % 10 == 0:
-            print(i)
+    for i in tqdm(range(nb_samples)):
         category = np.random.randint(3)
         if category == 0:
             X[i] = generate_a_rectangle(noise, free_location)
@@ -99,6 +99,7 @@ def generate_dataset_classification(nb_samples, noise=0.0, free_location=False):
         else:
             [X[i], V] = generate_a_triangle(noise, free_location)
         Y[i] = category
+    print('Categories: rectangle/disk/triangle')
     X = (X + noise) / (255 + 2 * noise)
     return [X, Y]
 
@@ -114,9 +115,7 @@ def generate_dataset_regression(nb_samples, noise=0.0):
     X = np.zeros([nb_samples,im_size])
     Y = np.zeros([nb_samples, 6])
     print('Creating data:')
-    for i in range(nb_samples):
-        if i % 10 == 0:
-            print(i)
+    for i in tqdm(range(nb_samples)):
         [X[i], Y[i]] = generate_a_triangle(noise, True)
     X = (X + noise) / (255 + 2 * noise)
     return [X, Y]
