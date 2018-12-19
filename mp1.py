@@ -4,6 +4,7 @@ from tqdm import tqdm_notebook as tqdm
 
 # On some implementations of matplotlib, you may need to change this value
 IMAGE_SIZE = 72
+CATEGORIES = ["rectangle","disk","triangle"]
 
 def generate_a_drawing(figsize, U, V, noise=0.0):
     fig = plt.figure(figsize=(figsize,figsize))
