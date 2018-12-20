@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from tqdm import tqdm_notebook as tqdm
+from keras.utils import np_utils
 
 # On some implementations of matplotlib, you may need to change this value
 IMAGE_SIZE = 72
